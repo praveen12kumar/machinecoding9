@@ -9,6 +9,9 @@ export const dataReducer = (state, {type, payload})=>{
         case "RemoveWatchLater":
             return{...state, watchLater: payload}
 
+        case "search":
+            return{...state, search: payload}
+
         default:
             return state;
 

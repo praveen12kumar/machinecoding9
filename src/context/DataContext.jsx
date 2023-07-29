@@ -13,6 +13,7 @@ export const DataProvider = ({children})=>{
         videos,
         playlist:[],
         watchLater:[],
+        search:"",
     }
 
     const [state, dispatch] = useReducer(dataReducer, initalValues)
@@ -24,7 +25,8 @@ export const DataProvider = ({children})=>{
             videos:state.videos,
             dataDispatch:dispatch,
             playlist:state.playlist,
-            watchLater:state.watchLater
+            watchLater:state.watchLater,
+            search:state.search,
 
         }}>
             {children}

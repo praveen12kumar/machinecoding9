@@ -1,13 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo.PNG";
+import { DataContext } from "../context/DataContext";
 
 
 const Header = () => {
   const [hidden, setHidden] = useState(true);
   const [darkMode, setDarkMode] = useState( JSON.parse(localStorage.getItem("darkMode")) || false);
   const navigate = useNavigate();
+  const {dataDispatch} = useContext(DataContext);
 
   useEffect(() => {
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
@@ -28,6 +30,15 @@ const Header = () => {
     const queryTerm = event.target.search.value;
     event.target.reset();
     return navigate(`/search?q=${queryTerm}`);
+  }
+
+  const handleSearch = (value)=> {
+    dataDispatch({
+      type:"search",
+      payload: value,
+    })
+
+    navigate('/explore');
   }
 
   return (
@@ -53,7 +64,8 @@ const Header = () => {
                 <span className="sr-only">Search icon</span>
               </div>
               <form onSubmit={handleSubmit}>
-                <input type="text" id="search-navbar" name="search" className="block p-2 pl-10 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." autoComplete="off" />
+                <input type="text" id="search-navbar" name="search" className="block p-2 pl-10 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                placeholder="Search..." autoComplete="off" onChange={(event)=> handleSearch(event.target.value)} />
               </form>
             </div>
             <button onClick={() => setHidden(!hidden)} data-collapse-toggle="navbar-search" type="button" className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">

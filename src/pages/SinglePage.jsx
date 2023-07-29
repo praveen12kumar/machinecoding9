@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
 import { BsStopwatch, BsStopwatchFill } from "react-icons/bs";
 import {MdOutlinePlaylistAdd} from "react-icons/md";
@@ -8,8 +9,12 @@ import {TbNotes} from "react-icons/tb";
 const SinglePage = () => {
   const { id } = useParams();
   const { videos, watchLater, dataDispatch } = useContext(DataContext);
-  
+  const navigate = useNavigate();
   const filteredVideo = videos?.find((video) => video._id === parseInt(id));
+
+  const [openModal, setOpenModal] = useState(false);
+
+
 
   const addWatchLater = (video)=>{
     dataDispatch({
@@ -36,7 +41,7 @@ const handleWatchLater = (event, video) => {
 
 
   console.log("filteredVidoe", filteredVideo);
-  const { category, creator, src, thumbnail, title, views, _id } = filteredVideo;
+  const { thumbnail, title, } = filteredVideo;
 
   return (
     <main className="w-full h-auto flex flex-col justify-between md:flex-row p-3 xl:p-6">
@@ -52,7 +57,7 @@ const handleWatchLater = (event, video) => {
                 </div>
                 
                 <div className="">
-                  <MdOutlinePlaylistAdd/>
+                  <MdOutlinePlaylistAdd onClick={()=> setOpenModal(!openModal)}/>
                 </div>
                 
                <div className="">
@@ -66,7 +71,7 @@ const handleWatchLater = (event, video) => {
         {videos?.slice(0, 5)?.map((video) => (
           <main className="w-full h-[200px] m-3  shadow-xl cursor-pointer flex  border-1 border-slate-100">
             <div className="w-full h-[80%] relative p-3">
-              <img className="w-full h-full" src={video?.thumbnail} alt="thumbnail" />
+              <img className="w-full h-full" src={video?.thumbnail} alt="thumbnail" onClick={()=> navigate(`/category/${video._id}`)} />
              
             </div>
             <div className="px-3 flex flex-col">
