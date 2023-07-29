@@ -9,7 +9,7 @@ const Explore = () => {
   const finalData = filteredVideo ? filteredVideo : videos;
 
   return (
-    <main className='w-full h-auto'>
+    <main className='w-full min-h-[100vh]'>
       <div className="w-full h-auto flex items-center md:flex-wrap m-auto mt-0  md:w-[90%] lg:w-[80%] xl:w-[75%]">
       {
         finalData?.map((video)=>(
